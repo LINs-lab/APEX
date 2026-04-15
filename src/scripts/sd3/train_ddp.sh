@@ -1,0 +1,21 @@
+#!/bin/bash
+
+export PYTHONPATH=./
+export TOKENIZERS_PARALLELISM=false
+export TORCH_NCCL_AVOID_RECORD_STREAMS=1
+
+export NCCL_DEBUG=WARN
+export NCCL_TIMEOUT=1800  # 30min
+
+CONFIG_PATH=$1
+NNODES=${WORLD_SIZE:=1}
+NPROC_PER_NODE=${NPROC_PER_NODE:=8}
+NODE_RANK=${RANK:=0}
+MASTER_ADDR=${MASTER_ADDR:=0.0.0.0}
+MASTER_PORT=${MASTER_PORT:=12347}
+
+TORCH_DISTRIBUTED_DEBUG=DETAIL
+
+torchrun --nnodes=$NNODES --nproc-per-node $NPROC_PER_NODE --node-rank $NODE_RANK \
+  --master-addr=$MASTER_ADDR --master-port=$MASTER_PORT \
+  steerers/stable_diffusion_3/sft_ddp.py $CONFIG_PATH

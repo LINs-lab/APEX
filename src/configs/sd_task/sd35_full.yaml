@@ -1,0 +1,76 @@
+model:
+  model_name: SD3_5
+  aux_time_embed: true
+  model_path: path/to/stable-diffusion-3.5-medium
+
+data:
+  height: 512
+  width: 512
+  train_dirs:
+    - path/to/data
+    
+method:
+  method_type: TwinFlow
+  transport_type: Linear
+  consistc_ratio: 1.0
+  enhanced_ratio: 0.8
+  ema_decay_rate: 0.99
+  enhanced_range: [0.0, 1.0]
+  time_dist_ctrl: [1.0, 1.0, 1.0]
+  estimate_order: 2
+  loss_func_type: {"type": "barron_reweighting", "alpha": 1.0}
+  dist_match_cof: 0.5
+
+# few-step sampling
+sample:
+  ckpt: "700"
+  cfg_scale: 0
+  cfg_interval: [0.00, 0.00]
+  sampling_steps: 2 # 1
+  stochast_ratio: 1.0 # 0.8
+  extrapol_ratio: 0.0
+  sampling_order: 1
+  time_dist_ctrl: [1.0, 1.0, 1.0]
+  rfba_gap_steps: [0.001, 0.7]
+  sampling_style: few
+
+# # any-step sampling
+# sample:
+#   ckpt: "700"
+#   cfg_scale: 0
+#   cfg_interval: [0.00, 0.00]
+#   sampling_steps: 4 # 8
+#   stochast_ratio: 0.0
+#   extrapol_ratio: 0.0
+#   sampling_order: 1
+#   time_dist_ctrl: [1.0, 1.0, 1.0]
+#   rfba_gap_steps: [0.001, 0.5]
+#   sampling_style: any
+
+# # multi-step sampling
+# sample:
+#   ckpt: "700"
+#   cfg_scale: 0
+#   cfg_interval: [0.00, 0.00]
+#   sampling_steps: 30
+#   stochast_ratio: 0.0
+#   extrapol_ratio: 0.0
+#   sampling_order: 1
+#   time_dist_ctrl: [1.17, 0.8, 1.1]
+#   rfba_gap_steps: [0.001, 0.0]
+#   sampling_style: mul
+
+train:
+  load_checkpoint_path: ""
+  output_dir: ../outputs
+  seed: 42
+  grad_accumulation_steps: 1
+  micro_batch_size: 16
+  num_train_epochs: 4
+  optimizer: adamw
+  lr: 1.0e-5
+  betas:
+    - 0.9
+    - 0.99
+  weight_decay: 0.0
+  max_grad_norm: 1.0

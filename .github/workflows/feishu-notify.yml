@@ -1,0 +1,57 @@
+name: Feishu Notifier
+
+on:
+  push:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification
+        env:
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK_URL }}
+          REPO: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+          REF_NAME: ${{ github.ref_name }}
+          COMMITS_JSON: ${{ toJson(github.event.commits) }}
+        run: |
+          COUNT=$(echo "$COMMITS_JSON" | jq 'length')
+
+          LIST=""
+          for i in $(seq 0 $((COUNT-1))); do
+            MSG=$(echo "$COMMITS_JSON" | jq -r ".[$i].message" | head -1)
+            SHA=$(echo "$COMMITS_JSON" | jq -r ".[$i].id" | cut -c1-7)
+            URL=$(echo "$COMMITS_JSON" | jq -r ".[$i].url")
+
+            ITEM="• [$SHA]($URL): $MSG"
+            if [ -z "$LIST" ]; then
+              LIST="$ITEM"
+            else
+              LIST="$LIST<br>$ITEM"
+            fi
+          done
+
+          PAYLOAD=$(jq -n \
+            --arg repo "$REPO" \
+            --arg actor "$ACTOR" \
+            --arg ref "$REF_NAME" \
+            --arg count "$COUNT" \
+            --arg list "$LIST" \
+            '{
+              msg_type: "interactive",
+              card: {
+                config: { wide_screen_mode: true },
+                header: {
+                  title: { tag: "plain_text", content: ("📦 " + $repo) },
+                  template: "blue"
+                },
+                elements: [
+                  { tag: "div", text: { tag: "lark_md", content: ("**" + $actor + "** pushed **" + $count + " commit(s)** to **" + $ref + "** branch") } },
+                  { tag: "div", text: { tag: "lark_md", content: $list } }
+                ]
+              }
+            }')
+
+          curl -s -X POST "$FEISHU_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD"

@@ -1,0 +1,76 @@
+model:
+  type: ./networks/openuni/openuni_l_internvl3_2b_sana_1_6b_512_hf.py
+  path: path/to/openuni_l_internvl3_2b_sana_1_6b_512_hf_blip3o60k.pth # https://huggingface.co/wusize/openuni/blob/main/openuni_l_internvl3_2b_sana_1_6b_512_hf_blip3o60k.pth
+  in_chans: 16
+
+data:
+  height: 512
+  width: 512
+  train_dirs:
+    - path/to/data
+    
+method:
+  method_type: TwinFlow
+  transport_type: Linear
+  consistc_ratio: 1.0
+  enhanced_ratio: 0.8
+  ema_decay_rate: 0.999
+  enhanced_range: [0.0, 1.0]
+  time_dist_ctrl: [1.0, 1.0, 1.0]
+  estimate_order: 2
+  loss_func_type: {"type": "barron_reweighting", "alpha": 1.0}
+  dist_match_cof: 0.75
+
+# few-step sampling
+sample:
+  ckpt: "700"
+  cfg_scale: 0
+  cfg_interval: [0.00, 0.00]
+  sampling_steps: 2 # 1
+  stochast_ratio: 1.0 # 0.8
+  extrapol_ratio: 0.0
+  sampling_order: 1
+  time_dist_ctrl: [1.0, 1.0, 1.0]
+  rfba_gap_steps: [0.001, 0.7]
+  sampling_style: few
+
+# # any-step sampling
+# sample:
+#   ckpt: "700"
+#   cfg_scale: 0
+#   cfg_interval: [0.00, 0.00]
+#   sampling_steps: 4 # 8
+#   stochast_ratio: 0.0
+#   extrapol_ratio: 0.0
+#   sampling_order: 1
+#   time_dist_ctrl: [1.0, 1.0, 1.0]
+#   rfba_gap_steps: [0.001, 0.5]
+#   sampling_style: any
+
+# # multi-step sampling
+# sample:
+#   ckpt: "700"
+#   cfg_scale: 0
+#   cfg_interval: [0.00, 0.00]
+#   sampling_steps: 30
+#   stochast_ratio: 0.0
+#   extrapol_ratio: 0.0
+#   sampling_order: 1
+#   time_dist_ctrl: [1.17, 0.8, 1.1]
+#   rfba_gap_steps: [0.001, 0.0]
+#   sampling_style: mul
+
+train:
+  load_checkpoint_path: ""
+  output_dir: ../outputs
+  seed: 42
+  grad_accumulation_steps: 1
+  micro_batch_size: 16
+  num_train_epochs: 4
+  optimizer: adamw
+  lr: 1.0e-4
+  betas:
+    - 0.9
+    - 0.95
+  weight_decay: 0.0
+  max_grad_norm: 1.0

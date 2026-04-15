@@ -1,0 +1,82 @@
+model:
+  model_name: QwenImage #Flux
+  aux_time_embed: false
+  # model_path: /dllab/share/data/zhenglin/model_zoo/FLUX.1-dev
+  model_path: /dllab/share/data/zhenglin/model_zoo/Qwen-Image
+  lora_rank: 64
+  lora_alpha: 64
+  lora_target_modules: to_k,to_q,to_v,to_out.0,img_mlp.net.0.proj,img_mlp.net.2,add_k_proj,add_q_proj,add_v_proj,txt_mlp.net.0.proj,txt_mlp.net.2,attn.to_add_out,timestep_embedder.linear_1,timestep_embedder.linear_2
+
+data:
+  height: 512
+  width: 512
+  train_dirs:
+    # - path/to/data
+    - /dllab/share/data/chuyan/datasets/Echo-4o-Image/Instruction-Following-Image/veomni_t2i
+
+# NOTE: modify probs in twinflow_lora.py
+method:
+  method_type: TwinFlow_LoRA
+  transport_type: Linear
+  consistc_ratio: 1.0
+  enhanced_ratio: 4.0
+  ema_decay_rate: 1.0
+  enhanced_range: [0.0, 1.0]
+  time_dist_ctrl: [1.0, 1.0, 1.0]
+  estimate_order: 1
+  loss_func_type: {"type": "barron_reweighting", "alpha": 1.0}
+  dist_match_cof: 0.5
+
+# few-step sampling
+sample:
+  ckpt: "700"
+  cfg_scale: 0
+  cfg_interval: [0.00, 0.00]
+  sampling_steps: 2 # 1
+  stochast_ratio: 1.0 # 0.8
+  extrapol_ratio: 0.0
+  sampling_order: 1
+  time_dist_ctrl: [1.0, 1.0, 1.0]
+  rfba_gap_steps: [0.001, 0.7]
+  sampling_style: few
+
+# # any-step sampling
+# sample:
+#   ckpt: "700"
+#   cfg_scale: 0
+#   cfg_interval: [0.00, 0.00]
+#   sampling_steps: 4 # 8
+#   stochast_ratio: 0.0
+#   extrapol_ratio: 0.0
+#   sampling_order: 1
+#   time_dist_ctrl: [1.0, 1.0, 1.0]
+#   rfba_gap_steps: [0.001, 0.5]
+#   sampling_style: any
+
+# # multi-step sampling
+# sample:
+#   ckpt: "700"
+#   cfg_scale: 0
+#   cfg_interval: [0.00, 0.00]
+#   sampling_steps: 30
+#   stochast_ratio: 0.0
+#   extrapol_ratio: 0.0
+#   sampling_order: 1
+#   time_dist_ctrl: [1.17, 0.8, 1.1]
+#   rfba_gap_steps: [0.001, 0.0]
+#   sampling_style: mul
+
+train:
+  load_checkpoint_path: ""
+  output_dir: ../outputs
+  seed: 42
+  grad_accumulation_steps: 1
+  micro_batch_size: 4
+  num_train_epochs: 4
+  optimizer: adamw
+  lr: 1.0e-4
+  betas:
+    - 0.9
+    - 0.99
+  weight_decay: 0.0
+  max_grad_norm: 1.0
