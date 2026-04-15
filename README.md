@@ -1,7 +1,7 @@
 <h1 align="center"><sub><sup>Self-Adversarial One Step Generation via Condition Shifting</sup></sub></h1>
 
 <p align="center">
-  <a href="https://zhenglin-cheng.com/" target="_blank">Deyuan&nbsp;Liu</a><sup>*</sup> &ensp; <b>&middot;</b> &ensp;
+  <a href="https://scholar.google.com.hk/citations?user=uBND4ecAAAAJ&hl" target="_blank">Deyuan&nbsp;Liu</a><sup>*</sup> &ensp; <b>&middot;</b> &ensp;
   <a href="https://scholar.google.com/citations?user=-8XvRRIAAAAJ" target="_blank">Peng&nbsp;Sun</a><sup>*</sup> &ensp; <b>&middot;</b> &ensp;
   <a target="_blank">Yansen&nbsp;Han</a> &ensp; <b>&middot;</b> &ensp;
   <a href="https://zhenglin-cheng.com/" target="_blank">Zhenglin&nbsp;Cheng</a> &ensp; <b>&middot;</b> &ensp;
