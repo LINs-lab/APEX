@@ -100,6 +100,17 @@ sampler_config = {
 ## 📖 Citation
 
 ```bibtex
+@misc{liu2026selfadversarialstepgenerationcondition,
+      title={Self-Adversarial One Step Generation via Condition Shifting}, 
+      author={Deyuan Liu and Peng Sun and Yansen Han and Zhenglin Cheng and Chuyan Chen and Tao Lin},
+      year={2026},
+      eprint={2604.12322},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2604.12322}, 
+}
+
+
 @article{cheng2025twinflow,
   title={TwinFlow: Realizing One-step Generation on Large Models with Self-adversarial Flows},
   author={Cheng, Zhenglin and Sun, Peng and Li, Jianguo and Lin, Tao},
