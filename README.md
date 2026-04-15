@@ -13,7 +13,7 @@
 
 [![Github Repo](https://img.shields.io/badge/LINs--lab%2FAPEX-black?logo=github)](https://github.com/LINs-lab/APEX)&#160;
 [![Github Repo](https://img.shields.io/badge/inclusionAI%2FTwinFlow-black?logo=github)](https://github.com/inclusionAI/TwinFlow)&#160;
-<a href="https://arxiv.org/abs/2604.xxxxx" target="_blank"><img src="https://img.shields.io/badge/Paper-b5212f.svg?logo=arxiv" height="21px"></a>
+<a href="https://arxiv.org/abs/2604.12322" target="_blank"><img src="https://img.shields.io/badge/Paper-b5212f.svg?logo=arxiv" height="21px"></a>
 [![WeChat](https://img.shields.io/badge/WeChat-green?logo=wechat&amp&color=white)](./assets/wechat.png)
 
 </div>
@@ -26,7 +26,7 @@
 
 | Technical Discussion Group/技术讨论群 | Model Users Discussion Group/AIGC模型使用讨论群 |
 |----------------------------|------------------------------------------|
-| <img src="./assets/wechat.png" style="width: 70%;" /> | <img src="./assets/wechat2.png" style="width: 70%;" /> |
+| <img src="./assets/few.jpg" style="width: 70%;" /> | <img src="./assets/aigc.jpg" style="width: 70%;" /> |
 
 </details>
 
