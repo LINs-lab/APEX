@@ -13,7 +13,7 @@ from services.tools import create_logger
 logger = create_logger(__name__)
 
 
-class TwinFlow(torch.nn.Module):
+class APEX(torch.nn.Module):
     def __init__(
         self,
         # --- Training Strategy & Consistency Control ---
